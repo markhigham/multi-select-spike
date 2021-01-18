@@ -1,39 +1,49 @@
 const originalSelect = document.querySelector("#multiSelect");
-
-console.log(originalSelect.options);
+originalSelect.classList.add("original-multi-select");
 
 const options = [];
-
 Array.from(originalSelect.options).forEach((o) => {
   options.push({ text: o.text, value: o.value, selected: o.selected });
 });
 
-console.table(options);
+// console.table(options);
+// new structure will be
+/*
+<new-wrapper>
+  <select>
+  <button>
+  <hr>
+  <ol>
+    <li>Selected item
+  </ol>
+
+*/
 
 const newWrapper = document.createElement("div");
 newWrapper.classList.add("new-wrapper");
-newWrapper.id = "rappity_rap_show";
+newWrapper.id = `${originalSelect.id}_wrapper`;
 
-const el = document.createElement("multiple-select");
-el.setAttribute("v-bind:option", "options");
-newWrapper.appendChild(el);
+const multiSelect = document.createElement("multiple-select");
+multiSelect.setAttribute("v:bind:options","options")
+newWrapper.appendChild(multiSelect);
+
+Vue.component("multiple-select", {
+  props: ['options'],
+  template: `<div>
+    <select>
+      <option v-for="option in options" v-bind:value="option.value">
+        {{ option.text }}
+      </option>
+    </select>
+    <button>Add</button>
+  </div>`,
+});
 
 originalSelect.parentNode.insertBefore(newWrapper, originalSelect);
 
-originalSelect.classList.add("hidden-multi-select");
-
-// Vue.component("multiple-select", {
-//   data: function () {
-
-//   },
-//   props: ['options'],
-//   template:
-//     `Hello world`,
-// });
-
-// new Vue({
-//   el: "#rappity_rap_show",
-//   data: {
-//     options: options
-//   }
-// });
+var app = new Vue({
+  el: newWrapper,
+  data: {
+    options: options,
+  },
+});
