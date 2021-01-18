@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <style>
+        .hidden-multi-select {
+            font-family: monospace;
+        }
+
+        .new-wrapper {
+            display: block;
+            border: solid;
+            padding: 1rem;
+            margin: 0 0 1rem 0;
+            overflow: hidden;
+            min-height: 2rem;
+        }
+
+        multiple-select {
+            border: blue solid;
+            display: block;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <h1>Hello world</h1>
+    <div class="grid-row">
+        <select multiple id="multiSelect">
+            <option value="published">Recently published</option>
+            <option value="updated" selected>Recently updated</option>
+            <option value="views">Most views</option>
+            <option value="comments">Most comments</option>
+        </select>
+    </div>
+</body>
+
+<script src="app.js"></script>
+
+</html>
