@@ -24,14 +24,24 @@ newWrapper.classList.add("new-wrapper");
 newWrapper.id = `${originalSelect.id}_wrapper`;
 
 const multiSelect = document.createElement("multiple-select");
-multiSelect.setAttribute("v:bind:options","options")
+multiSelect.setAttribute("v:bind:options", "existingOptions");
 newWrapper.appendChild(multiSelect);
 
-Vue.component("multiple-select", {
-  props: ['options'],
+originalSelect.parentNode.insertBefore(newWrapper, originalSelect);
+
+var app = Vue.createApp({
+  data: {
+    existingOptions: options,
+  },
+});
+
+
+
+app.component("multiple-select", {
+  props: ["existingOptions"],
   template: `<div>
     <select>
-      <option v-for="option in options" v-bind:value="option.value">
+      <option v-for="option in existingOptions" v-bind:value="option.value">
         {{ option.text }}
       </option>
     </select>
@@ -39,11 +49,4 @@ Vue.component("multiple-select", {
   </div>`,
 });
 
-originalSelect.parentNode.insertBefore(newWrapper, originalSelect);
-
-var app = new Vue({
-  el: newWrapper,
-  data: {
-    options: options,
-  },
-});
+app.mount(newWrapper);
